@@ -1,0 +1,6 @@
+cd buildAndSdk 
+
+cmake .. 
+
+make 
+

@@ -1,0 +1,5 @@
+.vscode 
+
+/buildAndSdk
+
+pico_sdk_import.cmake
