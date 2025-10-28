@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e   
 
+
+
+picoAndBuildFolderSetup(){
+
 mkdir buildAndSdk
 
 cd buildAndSdk/
@@ -26,3 +30,34 @@ else
     git pull
     git submodule update --init
 fi
+}
+
+
+
+arduino_setup(){
+    # Arduino Setup 
+    if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    brew update
+    #Maybe have to manually add brew to path 
+    if ! command -v arduino-cli >/dev/null 2>&1; then
+        brew install arduino-cli
+        arduino-cli core update-index
+        arduino-cli config add board_manager.additional_urls http://arduino.esp8266.com/stable/package_esp8266com_index.json
+        arduino-cli core search esp8266
+        arduino-cli core install esp8266:esp8266
+    fi
+fi
+}
+
+case "$1" in
+    arduino)
+        arduino_setup
+        ;;
+    pico)
+        picoAndBuildFolderSetup
+        ;;
+    *)    
+      echo "Setup: $1 {arduino|pico}" 
+      ;;
+esac  
